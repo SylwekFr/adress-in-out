@@ -1,18 +1,12 @@
-var http = require('http');
-var url = require('url');
+var express = require('express');
 
-var server = http.createServer(function(req, res) {
-    var page = url.parse(req.url).pathname;
-    console.log(page);
-    res.writeHead(200, {"Content-Type": "text/plain"});
-    switch(page) {
-        case '/':
-            res.write('ok');
-            break;
-        default:
-            res.writeHead(404, {"Content-Type": "text/plain"});
-            res.write('404');
-    }
-    res.end();
+var app = express();
+
+app.get('/', function(req, res) {
+    res.render('map.ejs');
+})
+.use(function(req, res, next){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(404).send('404 not found');
 });
-server.listen(8080);
+app.listen(8080);
