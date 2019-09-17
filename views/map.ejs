@@ -15,49 +15,72 @@
 
 <div id='map'></div>
 <script>
-mapboxgl.accessToken = 'tokencode';
+mapboxgl.accessToken = 'tokenformapbox';
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
     center: [-73.943851,40.720021],
-    zoom: 12
+    zoom: 13
 });
 
 map.on('load', function () {
-
-    map.addLayer({
-        'id': 'area',
-        'type': 'fill',
-        'source': {
-            'type': 'geojson',
-            'data': {
-                'type': 'Feature',
-                'geometry': {
-                    'type': 'Polygon',
-                    'coordinates': [[[-73.9346845,40.7284786],
-                        [-73.9382465,40.7281208 ],
-                        [-73.9457138,40.7274053],
-                        [-73.9517648,40.725454],
-                        [-73.9560993,40.721486],
-                        [-73.9564855,40.710394],
-                        [-73.9406068,40.7118904],
-                        [-73.9330966,40.713582],
-                        [-73.9347274,40.7172251],
-                        [-73.933955,40.7202501],
-                        [-73.9351995,40.722722],
-                        [-73.9282472,40.7243482],
-                        [-73.9298351,40.727633],
-                        [-73.9346845,40.7284786]]]
-                }
-            }
-        },
-        'layout': {},
-        'paint': {
-            'fill-color': '#088',
-            'fill-opacity': 0.5
+  map.addSource("checked-area", {
+    "type": "geojson",
+    "data": {
+      "type": "FeatureCollection",
+      "features": [{
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+          [
+          [-73.9346845,40.7284786],
+          [-73.9382465,40.7281208 ],
+          [-73.9457138,40.7274053],
+          [-73.9517648,40.725454],
+          [-73.9560993,40.721486],
+          [-73.9564855,40.710394],
+          [-73.9406068,40.7118904],
+          [-73.9330966,40.713582],
+          [-73.9347274,40.7172251],
+          [-73.933955,40.7202501],
+          [-73.9351995,40.722722],
+          [-73.9282472,40.7243482],
+          [-73.9298351,40.727633],
+          [-73.9346845,40.7284786]
+          ]
+          ]
         }
+      }, {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-73.943851,40.720021]
+        }
+      }]
+    }
     });
-});
+    map.addLayer({
+    "id": "area-boundary",
+    "type": "fill",
+    "source": "checked-area",
+    "paint": {
+    "fill-color": "#088",
+    "fill-opacity": 0.5
+    },
+    "filter": ["==", "$type", "Polygon"]
+    });
+    map.addLayer({
+      "id": "area-store",
+      "type": "circle",
+      "source": "checked-area",
+      "paint": {
+      "circle-radius": 6,
+      "circle-color": "#B42222"
+      },
+      "filter": ["==", "$type", "Point"],
+    });
+  });
 </script>
 
 </body>
