@@ -16,17 +16,21 @@
   <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.1/mapbox-gl-geocoder.css' type='text/css' />
   <div id='map'>  </div>
   <script>
-  mapboxgl.accessToken = 'token';
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic3lsd2VrZnIiLCJhIjoiY2swbm1sbHg0MDFkMDNvcXVmdXgybG95aSJ9.nzqToCjPN_kaDeJekFSwPw';
   var map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-73.943851,40.720021],
       zoom: 13
   });
-  map.addControl(new MapboxGeocoder({
+  var geocoder =new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
   mapboxgl: mapboxgl
-  }));
+  });
+  map.addControl(geocoder);
+  geocoder.on('result', function(result) {
+  console.log(result);
+  });
   map.on('load', function () {
     map.addSource("checked-area", {
       "type": "geojson",
@@ -59,7 +63,7 @@
           "type": "Feature",
           "geometry": {
             "type": "Point",
-            "coordinates": [-73.943851,40.720021]
+            "coordinates": [-73.943991, 40.720172]
           }
         }]
       }
