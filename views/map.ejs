@@ -16,32 +16,7 @@
   <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.1/mapbox-gl-geocoder.css' type='text/css' />
   <div id='map'>  </div>
   <script>
-  mapboxgl.accessToken = 'token';
-  var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-73.943851,40.720021],
-      zoom: 13
-  });
-  var geocoder =new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
-  mapboxgl: mapboxgl
-  });
-  map.addControl(geocoder);
-  geocoder.on('result', function(result) {
-  console.log(result);
-  });
-  map.on('load', function () {
-    map.addSource("checked-area", {
-      "type": "geojson",
-      "data": {
-        "type": "FeatureCollection",
-        "features": [{
-          "type": "Feature",
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-            [
+    let areaCoord= [
             [-73.9346845,40.7284786],
             [-73.9382465,40.7281208 ],
             [-73.9457138,40.7274053],
@@ -56,7 +31,71 @@
             [-73.9282472,40.7243482],
             [-73.9298351,40.727633],
             [-73.9346845,40.7284786]
-            ]
+            ];
+    function pointInPolygon(point, area) {    
+    let x = parseFloat(point[0]), y = parseFloat(point[1]);
+    let windingNumber = 0;
+
+    for (let i = 0, j = area.length - 1; i < area.length; j = i++) {
+      let xi = parseFloat(area[i][0]), yi = parseFloat(area[i][1]);
+      let xj = parseFloat(area[j][0]), yj = parseFloat(area[j][1]);
+
+      if (yj <= y) {
+        if (yi > y) {
+          if (isLeft([xj, yj], [xi, yi], [x,y]) > 0) {
+            windingNumber++;
+          }
+        }
+      } else {
+        if (yi <= y) {
+          if (isLeft([xj, yj], [xi, yi], [x, y]) < 0) {
+            windingNumber--;
+          }
+        }
+      }
+    }
+
+    return windingNumber != 0;
+};
+
+
+function isLeft(P0, P1, P2)
+{
+    var res = ( (P1[0] - P0[0]) * (P2[1] - P0[1])
+            - (P2[0] -  P0[0]) * (P1[1] - P0[1]) );
+    return res;
+};
+  mapboxgl.accessToken = 'put_here_your_token'; //put here your token
+  var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-73.943851,40.720021],
+      zoom: 13
+  });
+  var geocoder =new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+  });
+  map.addControl(geocoder);
+  geocoder.on('result', function(result) {
+    inout=pointInPolygon(result.result.geometry.coordinates, areaCoord)
+    if (inout == true) {
+      alert("the adress is in the area");
+    } else {
+      alert("the adress is out the area");
+    }
+  });
+  map.on('load', function () {
+    map.addSource("checked-area", {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": [{
+          "type": "Feature",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+            areaCoord
             ]
           }
         }, {
