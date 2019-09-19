@@ -1,4 +1,4 @@
-#Check adress in area application  
+# Check adress in area application  
 This application will check if an adress is in a pre-selected area  
 first please go on the root folder open your console and run :  
 `npm install`  

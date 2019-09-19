@@ -16,22 +16,61 @@
   <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.1/mapbox-gl-geocoder.css' type='text/css' />
   <div id='map'>  </div>
   <script>
-    let areaCoord= [
-            [-73.9346845,40.7284786],
-            [-73.9382465,40.7281208 ],
-            [-73.9457138,40.7274053],
-            [-73.9517648,40.725454],
-            [-73.9560993,40.721486],
-            [-73.9564855,40.710394],
-            [-73.9406068,40.7118904],
-            [-73.9330966,40.713582],
-            [-73.9347274,40.7172251],
-            [-73.933955,40.7202501],
-            [-73.9351995,40.722722],
-            [-73.9282472,40.7243482],
-            [-73.9298351,40.727633],
-            [-73.9346845,40.7284786]
-            ];
+    let areaCoord_1= [
+    [-73.9346845,40.7284786],
+    [-73.9382465,40.7281208 ],
+    [-73.9457138,40.7274053],
+    [-73.9517648,40.725454],
+    [-73.9560993,40.721486],
+    [-73.9564855,40.710394],
+    [-73.9406068,40.7118904],
+    [-73.9330966,40.713582],
+    [-73.9347274,40.7172251],
+    [-73.933955,40.7202501],
+    [-73.9351995,40.722722],
+    [-73.9282472,40.7243482],
+    [-73.9298351,40.727633],
+    [-73.9346845,40.7284786]
+    ];
+    let areaCoord_2= [
+    [-73.9431817,40.7329176],
+    [-73.9481599,40.7309989],
+    [-73.9581163,40.7300884],
+    [-73.9579875,40.72508],
+    [-73.9647682,40.7183148],
+    [-73.9667852,40.716233],
+    [-73.968373,40.7134681],
+    [-73.9690597,40.7109308],
+    [-73.9517219,40.7060185],
+    [-73.927346,40.710085],
+    [-73.9185483,40.7144114],
+    [-73.9162738,40.7251775],
+    [-73.924814,40.7290802],
+    [-73.9331825,40.7299908],
+    [-73.9395339,40.7348037],
+    [-73.9431817,40.7329176]
+    ];
+    let areaCoord_3= [
+    [-73.9565713,40.739031],
+    [-73.9622362,40.7340883],
+    [-73.9617212,40.7248523],
+    [-73.9696176,40.7131428],
+    [-73.9703042,40.7083283],
+    [-73.9689309,40.704034],
+    [-73.9605195,40.6973968],
+    [-73.9294488,40.7010409],
+    [-73.9150293,40.7114513],
+    [-73.8985498,40.72173],
+    [-73.8935716,40.7242018],
+    [-73.9069612,40.7256328],
+    [-73.9114244,40.7286249],
+    [-73.9193208,40.7307063],
+    [-73.9234407,40.7320071],
+    [-73.9255006,40.7348688],
+    [-73.9419801,40.7379905],
+    [-73.9498765,40.7408519],
+    [-73.9565713,40.739031]
+    ];
     function pointInPolygon(point, area) {    
     let x = parseFloat(point[0]), y = parseFloat(point[1]);
     let windingNumber = 0;
@@ -65,7 +104,7 @@ function isLeft(P0, P1, P2)
             - (P2[0] -  P0[0]) * (P1[1] - P0[1]) );
     return res;
 };
-  mapboxgl.accessToken = 'put_here_your_token'; //put here your token
+  mapboxgl.accessToken = 'your_token_here'; //put here your token
   var map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -78,9 +117,15 @@ function isLeft(P0, P1, P2)
   });
   map.addControl(geocoder);
   geocoder.on('result', function(result) {
-    inout=pointInPolygon(result.result.geometry.coordinates, areaCoord)
-    if (inout == true) {
-      alert("the adress is in the area");
+    let inarea1=pointInPolygon(result.result.geometry.coordinates, areaCoord_1)
+    let inarea2=pointInPolygon(result.result.geometry.coordinates, areaCoord_2)
+    let inarea3=pointInPolygon(result.result.geometry.coordinates, areaCoord_3)
+    if (inarea1) {
+      alert("the adress is in the area 1");
+    } else if (inarea2)  {
+      alert("the adress is in the area 2");
+    } else if (inarea3) {
+      alert("the adress is in the area 3");
     } else {
       alert("the adress is out the area");
     }
@@ -92,10 +137,38 @@ function isLeft(P0, P1, P2)
         "type": "FeatureCollection",
         "features": [{
           "type": "Feature",
+          'properties': {
+            'color': '#15b307',
+            'opacity': 0.6
+            },
           "geometry": {
             "type": "Polygon",
             "coordinates": [
-            areaCoord
+            areaCoord_1
+            ]
+          }
+        },{
+          "type": "Feature",
+          'properties': {
+            'color': '#d0d61a',
+            'opacity' : 0.4
+            },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+            areaCoord_2
+            ]
+          }
+        },{
+          "type": "Feature",
+          'properties': {
+            'color': '#ffa600',
+            'opacity': 0.2
+            },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+            areaCoord_3
             ]
           }
         }, {
@@ -112,8 +185,8 @@ function isLeft(P0, P1, P2)
       "type": "fill",
       "source": "checked-area",
       "paint": {
-      "fill-color": "#088",
-      "fill-opacity": 0.5
+      "fill-color": ['get', 'color'],
+      "fill-opacity": ['get', 'opacity']
       },
       "filter": ["==", "$type", "Polygon"]
       });
