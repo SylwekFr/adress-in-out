@@ -5,4 +5,6 @@ first please go on the root folder open your console and run :
 then go to https://account.mapbox.com/access-tokens/ for create your mapbox token, put this token into view/map.ejs :  
 `mapboxgl.accessToken = 'pastehereyourtoken';`  
 then into your root folder run  
-`node server.js`  
+`node server.js`   
+into your favorite navigator go to localhost:8080  
+PS: This is under development localhost:8080 work and is duplicate to localhost:8080/map but localhost:8080/wmap is not yet finish 

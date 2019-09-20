@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset='utf-8' />
-    <title>Adress in/out area</title>
+    <title>addressIn without map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
     <style>
-        body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+      body { margin:0; padding:0; }
+      #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+  
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.1/mapbox-gl-geocoder.min.js'></script>
   <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.1/mapbox-gl-geocoder.css' type='text/css' />
-  <div id='map'>  </div>
+  <style>
+    .geocoder {
+    position:absolute;
+    z-index:1;
+    width:50%;
+    left:50%;
+    margin-left:-25%;
+    top:20px;
+    }
+    .mapboxgl-ctrl-geocoder { min-width:100%; }
+  </style>
+  <div id='map'></div>
+  <div id='geocoder' class='geocoder'></div>
   <script>
     let areaCoord_1= [
     [-73.9346845,40.7284786],
@@ -104,18 +117,19 @@ function isLeft(P0, P1, P2)
             - (P2[0] -  P0[0]) * (P1[1] - P0[1]) );
     return res;
 };
-  mapboxgl.accessToken = 'here_your_token'; //put here your token
+  mapboxgl.accessToken = 'here_yout_token';
   var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-73.943851,40.720021],
-      zoom: 13
+  container: 'map'
+  /*style: 'mapbox://styles/mapbox/streets-v11',
+  center: [-79.4512, 43.6568],
+  zoom: 13*/
   });
-  var geocoder =new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
-  mapboxgl: mapboxgl
+  var geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken
+  //mapboxgl: mapboxgl
   });
-  map.addControl(geocoder);
+  
+  document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
   geocoder.on('result', function(result) {
     let inarea1=pointInPolygon(result.result.geometry.coordinates, areaCoord_1)
     let inarea2=pointInPolygon(result.result.geometry.coordinates, areaCoord_2)
@@ -130,78 +144,7 @@ function isLeft(P0, P1, P2)
       alert("the adress is out the area");
     }
   });
-  map.on('load', function () {
-    map.addSource("checked-area", {
-      "type": "geojson",
-      "data": {
-        "type": "FeatureCollection",
-        "features": [{
-          "type": "Feature",
-          'properties': {
-            'color': '#15b307',
-            'opacity': 0.6
-            },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-            areaCoord_1
-            ]
-          }
-        },{
-          "type": "Feature",
-          'properties': {
-            'color': '#d0d61a',
-            'opacity' : 0.4
-            },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-            areaCoord_2
-            ]
-          }
-        },{
-          "type": "Feature",
-          'properties': {
-            'color': '#ffa600',
-            'opacity': 0.2
-            },
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-            areaCoord_3
-            ]
-          }
-        }, {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [-73.943991, 40.720172]
-          }
-        }]
-      }
-      });
-      map.addLayer({
-      "id": "area-boundary",
-      "type": "fill",
-      "source": "checked-area",
-      "paint": {
-      "fill-color": ['get', 'color'],
-      "fill-opacity": ['get', 'opacity']
-      },
-      "filter": ["==", "$type", "Polygon"]
-      });
-      map.addLayer({
-        "id": "area-store",
-        "type": "circle",
-        "source": "checked-area",
-        "paint": {
-        "circle-radius": 6,
-        "circle-color": "#B42222"
-        },
-        "filter": ["==", "$type", "Point"],
-      });
-    });
   </script>
-
-</body>
+  
+  </body>
 </html>
