@@ -1,5 +1,5 @@
 let express = require('express');
-let tokenMapbox='put_here_your_token'; //put here your token
+let tokenMapbox='put_your_token_here'; //put here your token
 let app = express();
 
 app.get('/', function(req, res) {
@@ -10,6 +10,9 @@ app.get('/', function(req, res) {
 })
 .get('/wmap', function(req, res) {
     res.render('wmap.ejs', {token: tokenMapbox});
+})
+.get('/drawarea', function(req, res) {
+    res.render('drawarea.ejs', {token: tokenMapbox});
 })
 .use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
