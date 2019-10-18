@@ -1,8 +1,18 @@
 {
     "name": "adress-in-out",
+    "description": "Prototype of a function for check if an adress is inside a drawed area or not",
     "version": "0.1.0",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "license": "MIT",
     "dependencies": {
         "express": "~4.17.1",
         "ejs": "~2.7.1"
+    },
+    "author": "Sylvain Michel",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SylwekFr/adress-in-out"
     }
 }

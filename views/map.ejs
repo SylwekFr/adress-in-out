@@ -14,7 +14,7 @@
 <body>
   <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.1/mapbox-gl-geocoder.min.js'></script>
   <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.1/mapbox-gl-geocoder.css' type='text/css' />
-  <div id='map'>  </div>
+  <div id='map'> </div>
   <script>
     let areaCoord_1= [
     [-73.9346845,40.7284786],
@@ -104,7 +104,7 @@ function isLeft(P0, P1, P2)
             - (P2[0] -  P0[0]) * (P1[1] - P0[1]) );
     return res;
 };
-  mapboxgl.accessToken = 'here_your_token'; //put here your token
+  mapboxgl.accessToken = "<%= token %>";
   var map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
