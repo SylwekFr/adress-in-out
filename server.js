@@ -1,9 +1,9 @@
 let express = require('express');
-let tokenMapbox='put_your_token_here'; //put here your token
+let tokenMapbox='pk.eyJ1Ijoic3lsd2VrZnIiLCJhIjoiY2swcDJod2ZmMGZuNzNkczNteno0aTZzYSJ9.ud4nlnexpnhEwZLhtwrr9w'; //put here your token
 let app = express();
-
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'))
 app.get('/', function(req, res) {
-    res.render('map.ejs', {token: tokenMapbox});
+    res.render('index.ejs');
 })
 .get('/map', function(req, res) {
     res.render('map.ejs', {token: tokenMapbox});

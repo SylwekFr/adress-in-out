@@ -8,7 +8,10 @@
     "license": "MIT",
     "dependencies": {
         "express": "~4.17.1",
-        "ejs": "~2.7.1"
+        "ejs": "~2.7.1",
+        "popper.js": "~1.15.0",
+        "jquery": "3.4.1",
+        "bootstrap": "~4.3.1"
     },
     "author": "Sylvain Michel",
     "repository": {
