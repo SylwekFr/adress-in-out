@@ -1,5 +1,5 @@
 let express = require('express');
-let tokenMapbox='pk.eyJ1Ijoic3lsd2VrZnIiLCJhIjoiY2swcDJod2ZmMGZuNzNkczNteno0aTZzYSJ9.ud4nlnexpnhEwZLhtwrr9w'; //put here your token
+let tokenMapbox='here_your_token'; //put here your token
 let app = express();
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'))
 app.get('/', function(req, res) {
