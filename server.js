@@ -1,5 +1,5 @@
 let express = require('express');
-let tokenMapbox='pk.eyJ1Ijoic3lsd2VrZnIiLCJhIjoiY2swcDJod2ZmMGZuNzNkczNteno0aTZzYSJ9.ud4nlnexpnhEwZLhtwrr9w'; //put here your token
+let tokenMapbox='put_here_your_token'; //put here your token
 let app = express();
 let mysql = require('mysql');
 let connection = mysql.createConnection({
