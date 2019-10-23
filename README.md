@@ -7,4 +7,4 @@ then go to https://account.mapbox.com/access-tokens/ for create your mapbox toke
 then into your root folder run  
 `npm start`   
 into your favorite navigator go to localhost:8080  
-PS: This prototype is under development and contain 3 independent parts, one for draw areas, 2 other for check is an adress is in one defined area with and without map
+PS: This prototype is under development and contain 3 independent parts, one for draw areas, 2 other for check is an adress is in one defined area with and without map, a database bakup is avaliable on data
