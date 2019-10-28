@@ -1,6 +1,8 @@
 let express = require('express');
-let tokenMapbox='put_here_your_token'; //put here your token
+let tokenMapbox='pk.eyJ1Ijoic3lsd2VrZnIiLCJhIjoiY2syNmE2a3Q3MDRhODNqbWp6Y2Y1b3FpdSJ9.F4ZSvPPJWVixXmrQe-gWiw'; //put here your token
 let app = express();
+let bodyParser = require('body-parser');
+let encodedUrl = bodyParser.urlencoded({ extended: true });
 let mysql = require('mysql');
 let connection = mysql.createConnection({
   host     : 'localhost',
@@ -8,10 +10,6 @@ let connection = mysql.createConnection({
   password : 'root',
   database : 'area'
 });
-function callback(coordinates=[]){
-    console.log(coordinates);
-    return coordinates;
-}
 function getCoordinates() {
     connection.connect();
     let coordinates = [];
@@ -50,6 +48,12 @@ app.get('/', function(req, res) {
 })
 .get('/drawarea', function(req, res) {
     res.render('drawarea.ejs', {token: tokenMapbox});
+})
+.post('/drawarea/add/', encodedUrl, function(req, res) {
+    if (req.body.newCoordinates !=''){
+        console.log(req.body.newCoordinates);
+    }
+    res.redirect('/');
 })
 .use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');

@@ -17,7 +17,7 @@ body { margin:0; padding:0; }
 .calculation-box {
 height: 300px;
 overflow-y: scroll;
-width: 175px;
+width: 250px;
 position: absolute;
 bottom: 40px;
 left: 10px;
@@ -69,12 +69,17 @@ function updateArea(e) {
     var answer = document.getElementById('coordinate-area');
     if (data.features.length > 0) {
         answer.innerHTML = '';
+        let UpdateCoordinates= new Array(data.features.length);
         for (let i=0; i<data.features.length;i++){
+            UpdateCoordinates[i]=data.features[i].geometry.coordinates[0];
             answer.innerHTML += '<p><strong> Coordinate of the area ' + (i+1) + '</strong></p>';
             for (coord of data.features[i].geometry.coordinates[0]){
                 answer.innerHTML += "<p>lat: "+coord[1]+"; long: "+coord[0]+'.</p>';
             }
         }
+        answer.innerHTML +='<form action="/drawarea/add/" method="post"><button name="newCoordinates" type="submit" value='
+            +UpdateCoordinates
+            +'>save coordinates</button></form>';
     } else {
         answer.innerHTML = '';
         if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
